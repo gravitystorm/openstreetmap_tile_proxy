@@ -1,0 +1,18 @@
+# Proxy for tile.openstreetmap.org
+http_port 80 accel defaultsite=tile.openstreetmap.org
+
+cache_peer tile.openstreetmap.org parent 80 0 no-query originserver name=OSMTile
+
+# Cut off aborted requests
+quick_abort_min 0 KB
+quick_abort_max 0 KB
+
+# Have a large read-ahead since we're taching tiles
+read_ahead_gap 64 KB
+
+# Now the access controls
+acl tile_server dstdomain tile.openstreetmap.org
+http_access allow tile_server
+cache_peer_access OSMTile allow tile_server
+cache_peer_access OSMTile deny all
+
