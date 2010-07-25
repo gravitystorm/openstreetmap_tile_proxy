@@ -10,9 +10,16 @@ quick_abort_max 0 KB
 # Have a large read-ahead since we're taching tiles
 read_ahead_gap 64 KB
 
+# Allow the manager to connect via localhost
+acl manager proto cache_object
+http_access allow manager localhost
+http_access deny manager
+
 # Now the access controls
 acl tile_server dstdomain tile.openstreetmap.org
 http_access allow tile_server
 cache_peer_access OSMTile allow tile_server
 cache_peer_access OSMTile deny all
 
+# Produce a squid access log in the standard format
+access_log /var/log/squid3/access.log squid
