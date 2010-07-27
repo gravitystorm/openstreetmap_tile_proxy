@@ -1,7 +1,8 @@
 # Proxy for tile.openstreetmap.org
 http_port 80 accel defaultsite=tile.openstreetmap.org
 
-cache_peer tile.openstreetmap.org parent 80 0 no-query originserver name=OSMTile
+cache_peer tile.openstreetmap.org parent 80 0 no-query originserver 
+name=OSMTile
 
 # Cut off aborted requests
 quick_abort_min 0 KB
@@ -10,16 +11,21 @@ quick_abort_max 0 KB
 # Have a large read-ahead since we're taching tiles
 read_ahead_gap 64 KB
 
+# Older squid requires you explicitly tell it what localhost and all are
+acl localhost src 127.0.0.1/255.255.255.255
+acl all src 0.0.0.0/0.0.0.0
+
 # Allow the manager to connect via localhost
 acl manager proto cache_object
-http_access allow manager localhost
-http_access deny manager
 
 # Now the access controls
 acl tile_server dstdomain tile.openstreetmap.org
 http_access allow tile_server
+http_access allow manager localhost
+http_access deny manager
 cache_peer_access OSMTile allow tile_server
 cache_peer_access OSMTile deny all
 
 # Produce a squid access log in the standard format
-access_log /var/log/squid3/access.log squid
+access_log /var/log/squid/access.log squid
+
