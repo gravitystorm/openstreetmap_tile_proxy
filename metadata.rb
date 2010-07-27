@@ -5,6 +5,6 @@ version "0.1"
 license "Apache 2.0"
 recipe "openstreetmap:tile:proxy"
 
-%w(ubuntu debian).each do |os|
+%w(ubuntu debian redhat centos).each do |os|
   supports os
 end
