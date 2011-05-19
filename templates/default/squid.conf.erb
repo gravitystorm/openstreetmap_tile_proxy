@@ -8,10 +8,10 @@ name=OSMTile
 quick_abort_min 0 KB
 quick_abort_max 0 KB
 
-# Have a large read-ahead since we're taching tiles
+# Have a large read-ahead since we're caching tiles
 read_ahead_gap 64 KB
 
-# Older squid requires you explicitly tell it what localhost and all are
+# Older versions of squid require you to explicitly tell it what localhost and all are
 acl localhost src 127.0.0.1/255.255.255.255
 acl all src 0.0.0.0/0.0.0.0
 
